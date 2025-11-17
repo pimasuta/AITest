@@ -1,32 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { Participants } from './components/participants/participants';
-import { ExpenseForm } from './components/expense-form/expense-form';
-import { SettleUp } from './components/settle-up/settle-up';
-import { ExpenseHistory } from './components/expense-history/expense-history';
-import { GitHubIntegration } from './components/github-integration/github-integration';
+import { MsalService, MsalBroadcastService } from '@azure/msal-angular';
+import { InteractionStatus } from '@azure/msal-browser';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    CommonModule,
-    MatToolbarModule,
-    MatTabsModule,
-    MatButtonModule,
-    MatIconModule,
-    Participants,
-    ExpenseForm,
-    SettleUp,
-    ExpenseHistory,
-    GitHubIntegration
-  ],
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {
+export class App implements OnInit, OnDestroy {
   title = 'Expense Splitter';
+  private authService = inject(MsalService);
+  private msalBroadcastService = inject(MsalBroadcastService);
+  private readonly _destroying$ = new Subject<void>();
+
+  ngOnInit(): void {
+    // Initialize MSAL if in browser
+    if (typeof window !== 'undefined') {
+      this.authService.instance.initialize().then(() => {
+        // Handle redirect promise
+        this.authService.instance.handleRedirectPromise().then((result) => {
+          if (result) {
+            this.authService.instance.setActiveAccount(result.account);
+          }
+        });
+      });
+
+      // Subscribe to interaction status
+      this.msalBroadcastService.inProgress$
+        .pipe(
+          filter((status: InteractionStatus) => status === InteractionStatus.None),
+          takeUntil(this._destroying$)
+        )
+        .subscribe(() => {
+          // Check if there's an active account
+          const accounts = this.authService.instance.getAllAccounts();
+          if (accounts.length > 0) {
+            this.authService.instance.setActiveAccount(accounts[0]);
+          }
+        });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this._destroying$.next();
+    this._destroying$.complete();
+  }
 }
