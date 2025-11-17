@@ -1,0 +1,43 @@
+.participants-section {
+  margin-bottom: 32px;
+}
+
+.full-width {
+  width: 100% !important;
+}
+
+button[mat-raised-button] {
+  min-width: 120px !important;
+  padding: 8px 16px !important;
+  transition: all 0.2s ease !important;
+  
+  &:not(:disabled):hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  }
+}
+
+.participants-chips {
+  margin-top: 16px;
+  
+  mat-chip-set {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+.participant-chip {
+  margin: 4px !important;
+  background-color: #e3f2fd !important;
+  color: #1976d2 !important;
+  font-weight: 500;
+  
+  mat-icon {
+    color: #1976d2 !important;
+  }
+  
+  &:hover {
+    background-color: #bbdefb !important;
+  }
+}

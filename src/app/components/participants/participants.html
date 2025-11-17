@@ -1,0 +1,33 @@
+<div class="participants-section">
+  <h2 class="section-header">Participants</h2>
+  
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Add Participant</mat-label>
+    <input 
+      matInput 
+      [ngModel]="newParticipantName()"
+      (ngModelChange)="newParticipantName.set($event)"
+      (keypress)="onKeyPress($event)"
+      placeholder="Enter participant name">
+    <button 
+      mat-icon-button 
+      matSuffix 
+      (click)="addParticipant()"
+      [disabled]="!newParticipantName().trim()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <div class="participants-chips" *ngIf="expenseService.participants().length > 0">
+    <mat-chip-set>
+      <mat-chip 
+        *ngFor="let participant of expenseService.participants()" 
+        class="participant-chip"
+        [removable]="true"
+        (removed)="removeParticipant(participant.id)">
+        {{participant.name}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+</div>

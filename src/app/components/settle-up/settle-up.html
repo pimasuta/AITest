@@ -1,0 +1,71 @@
+<div class="settle-up-section">
+  <h2 class="section-header">Settle Up</h2>
+
+  <div *ngIf="expenseService.settlements().length === 0" class="no-settlements">
+    <mat-card>
+      <mat-card-content>
+        <div class="all-settled">
+          <mat-icon color="primary">check_circle</mat-icon>
+          <p>Everyone is settled up! 🎉</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="expenseService.settlements().length > 0">
+    <mat-card class="settlements-card">
+      <mat-card-header>
+        <mat-card-title>Recommended Payments</mat-card-title>
+        <mat-card-subtitle>These payments will settle all debts</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngFor="let settlement of expenseService.settlements(); let last = last" class="settlement-item">
+          <div class="settlement-info">
+            <strong>{{getParticipantName(settlement.fromParticipant)}}</strong>
+            <span class="owes-text">owes</span>
+            <strong>{{getParticipantName(settlement.toParticipant)}}</strong>
+          </div>
+          <div class="settlement-amount">
+            {{formatCurrency(settlement.amount)}}
+          </div>
+          <mat-divider *ngIf="!last"></mat-divider>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end" class="settlement-actions">
+        <button mat-raised-button color="primary" (click)="settleUp()" class="settle-button">
+          <mat-icon>account_balance_wallet</mat-icon>
+          Settle Up Now
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="balances-card">
+      <mat-card-header>
+        <mat-card-title>Current Balances</mat-card-title>
+        <mat-card-subtitle>Who owes money and who is owed</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngFor="let participant of expenseService.participantsWithBalances(); let last = last" 
+             class="balance-item">
+          <div class="participant-info">
+            <strong>{{participant.name}}</strong>
+            <div class="balance-details">
+              <small>Paid: {{formatCurrency(participant.totalPaid)}} | 
+                     Owes: {{formatCurrency(participant.totalOwed)}}</small>
+            </div>
+          </div>
+          <div class="balance-amount" 
+               [ngClass]="{
+                 'amount-positive': participant.balance > 0,
+                 'amount-negative': participant.balance < 0
+               }">
+            <span *ngIf="participant.balance > 0">+{{formatCurrency(participant.balance)}}</span>
+            <span *ngIf="participant.balance < 0">{{formatCurrency(participant.balance)}}</span>
+            <span *ngIf="participant.balance === 0">{{formatCurrency(0)}}</span>
+          </div>
+          <mat-divider *ngIf="!last"></mat-divider>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

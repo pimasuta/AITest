@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>
+  <mat-icon color="primary">account_balance_wallet</mat-icon>
+  Confirm Settlement
+</h2>
+
+<mat-dialog-content>
+  <p class="dialog-intro">Are you sure you want to settle all outstanding balances? This will:</p>
+  
+  <ul class="settlement-actions">
+    <li>Record the following {{data.settlements.length}} payment(s) in your history</li>
+    <li>Balance all accounts to zero</li>
+    <li>Create settlement transactions for tracking</li>
+  </ul>
+
+  <div class="settlements-preview">
+    <h3>Payments to be made:</h3>
+    <div *ngFor="let settlement of data.settlements" class="settlement-preview-item">
+      <div class="settlement-from-to">
+        <strong>{{getParticipantName(settlement.fromParticipant)}}</strong>
+        <mat-icon class="arrow-icon">arrow_forward</mat-icon>
+        <strong>{{getParticipantName(settlement.toParticipant)}}</strong>
+      </div>
+      <div class="settlement-preview-amount">
+        {{formatCurrency(settlement.amount)}}
+      </div>
+    </div>
+  </div>
+
+  <div class="warning-message">
+    <mat-icon color="warn">warning</mat-icon>
+    <p>This action will clear all current balances and cannot be undone.</p>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">
+    Cancel
+  </button>
+  <button mat-raised-button color="primary" (click)="onConfirm()">
+    <mat-icon>check_circle</mat-icon>
+    Confirm Settlement
+  </button>
+</mat-dialog-actions>

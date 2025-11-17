@@ -1,0 +1,120 @@
+.expense-form-section {
+  margin-bottom: 32px;
+}
+
+.expense-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.split-section {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fafafa;
+}
+
+.split-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.select-all-button {
+  min-width: auto !important;
+  color: #3f51b5 !important;
+  border: 1px solid #3f51b5 !important;
+  transition: all 0.2s ease !important;
+  padding: 8px 16px !important;
+  
+  &:hover {
+    background-color: rgba(63, 81, 181, 0.08) !important;
+    border-color: #303f9f !important;
+  }
+  
+  &:active {
+    background-color: rgba(63, 81, 181, 0.12) !important;
+  }
+}
+
+.participants-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.participant-checkbox {
+  margin-bottom: 0;
+  
+  .mdc-form-field {
+    color: #333;
+  }
+  
+  .mdc-checkbox__checkmark {
+    color: white;
+  }
+}
+
+.add-expense-button {
+  align-self: flex-start !important;
+  margin-top: 16px !important;
+  padding: 12px 24px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+  
+  &:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+  }
+  
+  &:not(:disabled):hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(63, 81, 181, 0.3) !important;
+  }
+  
+  &:not(:disabled):active {
+    transform: translateY(0) !important;
+  }
+}
+
+.no-participants {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  margin: 32px 0;
+  padding: 40px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  border: 2px dashed #ddd;
+  
+  p {
+    margin: 0;
+    font-size: 1.1em;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .participants-checkboxes {
+    grid-template-columns: 1fr;
+  }
+  
+  .split-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .select-all-button {
+    align-self: stretch;
+  }
+}

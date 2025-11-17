@@ -1,0 +1,138 @@
+<div class="github-integration-section">
+  <h2 class="section-header">GitHub Integration</h2>
+
+  <!-- Server Status -->
+  <mat-card class="status-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon [color]="serverAvailable() ? 'primary' : 'warn'">
+          {{serverAvailable() ? 'check_circle' : 'error'}}
+        </mat-icon>
+        MCP Server Status
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="!serverAvailable()" class="server-unavailable">
+        <p>GitHub MCP Server is not available. Please ensure the MCP server is running on localhost:3000</p>
+        <button mat-raised-button color="primary" (click)="checkServerStatus()" [disabled]="loading()">
+          <mat-spinner *ngIf="loading()" diameter="20"></mat-spinner>
+          {{loading() ? 'Checking...' : 'Retry Connection'}}
+        </button>
+      </div>
+      
+      <div *ngIf="serverAvailable() && !connected()" class="not-connected">
+        <p>Server is available but not connected to GitHub.</p>
+        <button mat-raised-button color="primary" (click)="connectToGitHub()" [disabled]="loading()">
+          <mat-spinner *ngIf="loading()" diameter="20"></mat-spinner>
+          {{loading() ? 'Connecting...' : 'Connect to GitHub'}}
+        </button>
+      </div>
+      
+      <div *ngIf="connected()" class="connected">
+        <p>✅ Connected to GitHub successfully!</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Create Repository Section -->
+  <mat-card class="create-repo-card" *ngIf="connected()">
+    <mat-card-header>
+      <mat-card-title>Create New Repository</mat-card-title>
+      <mat-card-subtitle>Create a new GitHub repository for your Expense Splitter project</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="create-repo-form">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Repository Name</mat-label>
+          <input matInput [ngModel]="newRepoName()" (ngModelChange)="newRepoName.set($event)" placeholder="expense-splitter">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description (Optional)</mat-label>
+          <textarea 
+            matInput 
+            [ngModel]="newRepoDescription()"
+            (ngModelChange)="newRepoDescription.set($event)"
+            placeholder="An Angular 20 expense splitting application"
+            rows="3">
+          </textarea>
+        </mat-form-field>
+
+        <mat-checkbox [ngModel]="newRepoPrivate()" (ngModelChange)="newRepoPrivate.set($event)">
+          Make repository private
+        </mat-checkbox>
+
+        <button 
+          mat-raised-button 
+          color="primary" 
+          (click)="createRepository()"
+          [disabled]="!newRepoName().trim() || loading()">
+          <mat-spinner *ngIf="loading()" diameter="20"></mat-spinner>
+          {{loading() ? 'Creating...' : 'Create Repository'}}
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Existing Repositories -->
+  <mat-card class="repositories-card" *ngIf="connected()">
+    <mat-card-header>
+      <mat-card-title>Your Repositories</mat-card-title>
+      <mat-card-subtitle>Select a repository to push your project to</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="repositories().length === 0 && !loading()" class="no-repositories">
+        <p>No repositories found. Create one above!</p>
+      </div>
+
+      <div *ngIf="loading()" class="loading-repos">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Loading repositories...</p>
+      </div>
+
+      <div *ngIf="repositories().length > 0" class="repositories-list">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Select Repository</mat-label>
+          <mat-select [ngModel]="selectedRepo()" (ngModelChange)="selectedRepo.set($event)">
+            <mat-option *ngFor="let repo of repositories()" [value]="repo.name">
+              {{repo.fullName}} {{repo.private ? '(Private)' : ''}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="repository-actions">
+          <button 
+            mat-raised-button 
+            color="accent" 
+            (click)="pushProject()"
+            [disabled]="!selectedRepo() || loading()">
+            <mat-icon>upload</mat-icon>
+            {{loading() ? 'Pushing...' : 'Push Project to GitHub'}}
+          </button>
+          
+          <button 
+            mat-button 
+            (click)="loadRepositories()"
+            [disabled]="loading()">
+            <mat-icon>refresh</mat-icon>
+            Refresh
+          </button>
+        </div>
+
+        <div class="repositories-grid">
+          <div *ngFor="let repo of repositories()" class="repository-item">
+            <div class="repo-info">
+              <h4>{{repo.name}}</h4>
+              <p *ngIf="repo.description">{{repo.description}}</p>
+              <span class="repo-visibility">{{repo.private ? 'Private' : 'Public'}}</span>
+            </div>
+            <button mat-button (click)="openRepository(repo.htmlUrl)">
+              <mat-icon>open_in_new</mat-icon>
+              View on GitHub
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

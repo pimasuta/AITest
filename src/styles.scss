@@ -1,0 +1,114 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+html, body { 
+  height: 100%; 
+  margin: 0; 
+  padding: 0;
+}
+
+body { 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+  line-height: 1.5;
+  color: #333;
+  background-color: #fafafa;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  min-height: calc(100vh - 40px);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.section-header {
+  margin: 24px 0 20px 0;
+  color: #3f51b5;
+  font-weight: 600;
+  font-size: 1.5em;
+  border-bottom: 2px solid #e3f2fd;
+  padding-bottom: 8px;
+}
+
+.expense-card {
+  margin: 16px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.settlement-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background-color: #f9f9f9;
+  }
+}
+
+.settlement-item:last-child {
+  border-bottom: none;
+}
+
+.amount-positive {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.amount-negative {
+  color: #f44336;
+  font-weight: 600;
+}
+
+.participant-chip {
+  margin: 4px !important;
+}
+
+// Material Design overrides for better consistency
+mat-card {
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  margin-bottom: 16px;
+}
+
+mat-form-field {
+  .mat-mdc-form-field-wrapper {
+    padding-bottom: 1.25em;
+  }
+}
+
+mat-toolbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .container {
+    margin: 0;
+    padding: 16px;
+    border-radius: 0;
+    min-height: 100vh;
+  }
+  
+  .section-header {
+    font-size: 1.3em;
+    margin: 16px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 12px;
+  }
+  
+  .section-header {
+    font-size: 1.2em;
+  }
+}

@@ -1,0 +1,39 @@
+<mat-toolbar color="primary">
+  <mat-icon>calculate</mat-icon>
+  <span>{{title}}</span>
+  <span class="spacer"></span>
+  <button mat-icon-button>
+    <mat-icon>settings</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="container">
+  <mat-tab-group animationDuration="300ms" class="main-tabs">
+    
+    <mat-tab label="Setup">
+      <div class="tab-content">
+        <app-participants></app-participants>
+        <app-expense-form></app-expense-form>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Settle Up">
+      <div class="tab-content">
+        <app-settle-up></app-settle-up>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="History">
+      <div class="tab-content">
+        <app-expense-history></app-expense-history>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="GitHub">
+      <div class="tab-content">
+        <app-github-integration></app-github-integration>
+      </div>
+    </mat-tab>
+
+  </mat-tab-group>
+</div>
