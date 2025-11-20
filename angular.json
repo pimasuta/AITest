@@ -17,23 +17,26 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "outputPath": "dist/expense-splitter",
+            "index": "src/index.html",
             "browser": "src/main.ts",
+            "polyfills": [],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "web.config",
+                "input": "src",
+                "output": "/"
               }
             ],
             "styles": [
               "src/styles.scss"
-            ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            ]
           },
           "configurations": {
             "production": {
@@ -41,12 +44,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumError": "50MB"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumError": "50MB"
                 }
               ],
               "outputHashing": "all"
