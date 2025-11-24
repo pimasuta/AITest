@@ -2,19 +2,6 @@
   <mat-icon>calculate</mat-icon>
   <span>{{title}}</span>
   <span class="spacer"></span>
-  <div class="user-info">
-    <span class="user-name">{{userName}}</span>
-    <span class="user-email">{{userEmail}}</span>
-  </div>
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>account_circle</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>logout</mat-icon>
-      <span>Logout</span>
-    </button>
-  </mat-menu>
 </mat-toolbar>
 
 <div class="container">

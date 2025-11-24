@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/c2aead3f-9a15-4f27-adf5-5190d1c8477d/resourceGroups/ThaiDev/providers/Microsoft.Web/sites/SplitWiseMini",
+    "appService.deploySubpath": "dist\\expense-splitter\\browser"
+}
